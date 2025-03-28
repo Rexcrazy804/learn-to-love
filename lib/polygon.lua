@@ -43,8 +43,8 @@ end
 ---increments the given `coordinate` by the given `value`
 ---@param value number
 ---@param coordinate 
----| "x" 
----| "y" 
+---| "x"
+---| "y"
 ---| "xy"
 function Polygon:update(coordinate, value)
   for i = 1, #self.vertices do
@@ -57,4 +57,43 @@ function Polygon:update(coordinate, value)
       self.vertices[i][2] = self.vertices[i][2] + value
     end
   end
+end
+
+---rotates all vertices of the polygon by the given angle `theta`
+---@param theta number
+function Polygon:rotate(theta)
+  theta = theta % 360
+  local rad_theta = math.rad(theta)
+  local centroid = self:get_centroid()
+
+  -- first we apply a translation to shift the polygon to origin
+  self:update("x", -centroid[1])
+  self:update("y", -centroid[2])
+
+  -- rotate all coordinates
+  for i = 1, #self.vertices do
+    local original = {}
+    original[1] = self.vertices[i][1]
+    original[2] = self.vertices[i][2]
+
+    self.vertices[i][1] = original[1] * math.cos(rad_theta) - original[2] * math.sin(rad_theta)
+    self.vertices[i][2] = original[2] * math.cos(rad_theta) + original[1] * math.sin(rad_theta)
+  end
+
+  -- revert to original position
+  self:update("x", centroid[1])
+  self:update("y", centroid[2])
+end
+
+---find the centroid of a non intersecting simple polygon
+---@return [number, number] centroid x and y coordinates of the centroid
+function Polygon:get_centroid()
+  local sumX = 0
+  local sumY = 0
+  local vertex_count = #self.vertices
+  for i = 1, vertex_count do
+    sumX = sumX + self.vertices[i][1]
+    sumY = sumY + self.vertices[i][2]
+  end
+  return { sumX/vertex_count, sumY/vertex_count}
 end
