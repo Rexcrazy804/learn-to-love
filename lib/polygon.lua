@@ -62,7 +62,6 @@ end
 ---rotates all vertices of the polygon by the given angle `theta`
 ---@param theta number
 function Polygon:rotate(theta)
-  theta = theta % 360
   local rad_theta = math.rad(theta)
   local centroid = self:get_centroid()
 
