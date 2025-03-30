@@ -1,16 +1,20 @@
+local log = require('lib.log')
 ---@param fixture1 love.Fixture
 ---@param fixture2 love.Fixture
 ---@param contact love.Contact
 local begin_contact = function(fixture1, fixture2, contact)
   local object_1 = fixture1:getUserData() or "unknown1"
   local object_2 = fixture2:getUserData() or "unknown2"
-  print(object_1 .. " and " .. object_2 .. " are touching each other");
+  log.printlog(string.format("%s and %s started touching", object_1, object_2));
 
-  local x1, x2, x3, x4 = contact:getPositions()
-  local c_points = { x1 , x2, x3, x4 }
-  for index, point in ipairs(c_points) do
-    print("[" .. index .. "]: " .. point)
-  end
+  local points = { contact:getPositions() }
+  for i = 1, 4 do points[i] = points[i] or -1.69 end
+  log.printlog(string.format("contact points (x1: %d, y1: %d), (x2: %d, y2: %d)",
+    points[1],
+    points[2],
+    points[3],
+    points[4]
+  ))
 end
 
 ---@param fixture1 love.Fixture
@@ -20,7 +24,7 @@ local end_contact = function(fixture1, fixture2, contact)
   local object_1 = fixture1:getUserData() or "unknown1"
   local object_2 = fixture2:getUserData() or "unknown2"
 
-  print(object_1 .. " and " .. object_2 .. " stopped touching each other");
+  log.printlog(string.format("%s and %s stopped touching", object_1, object_2));
 end
 
 ---@param fixture1 love.Fixture

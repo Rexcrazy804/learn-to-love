@@ -28,7 +28,8 @@ local update = {
   ---moves the player polygon (not workign rn)
   ---@param shape Polygon
   ["player"] = function(shape)
-    local speed = 800;
+    local speed = 800
+      local torque = 3000
     if love.keyboard.isDown("up") then shape.body:applyForce(0, -speed) end
     if love.keyboard.isDown("down") then shape.body:applyForce(0, speed) end
     if love.keyboard.isDown("left") then shape.body:applyForce(-speed, 0) end
@@ -37,9 +38,9 @@ local update = {
     if love.keyboard.isDown("space") then
       ---@diagnostic disable-next-line: param-type-mismatch
       if love.keyboard.isDown("lshift") then
-        shape.body:applyTorque(500)
+        shape.body:applyTorque(torque)
       else
-        shape.body:applyTorque(-500)
+        shape.body:applyTorque(torque)
       end
     end
   end,
