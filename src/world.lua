@@ -1,17 +1,12 @@
 local shapes = require('shapes')
 local physics = love.physics
-local world = physics.newWorld(0, 9.8, true)
+local world = physics.newWorld(0, 48, true)
 
 ---@alias Shape { body: love.Body, shape: love.PolygonShape, fixture: love.Fixture}
----@type  table<string, Shape>
+---@type  table<string, Polygon>
 local entities = {}
----@type Shape
-local triangle = {}
-triangle.body = physics.newBody(world, 200, 200, "dynamic")
-triangle.body:setMass(10)
-triangle.shape = physics.newPolygonShape(shapes["triangle"]:normalizedVertices())
-triangle.fixture = physics.newFixture(triangle.body, triangle.shape)
 
-entities["triangle"] = triangle
+entities["triangle"] = Polygon:new(world, shapes["square"], 10, "dynamic", {200, 200})
+entities["floor"] = Polygon:new(world, shapes["slanted-floor"], 300, "static", {40, 400})
 
 return { world, entities }

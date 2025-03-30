@@ -1,14 +1,31 @@
 ---@class Polygon
 ---@field vertices [number, number][]
+---@field world love.World
+---@field body love.Body
+---@field shape love.PolygonShape
+---@field fixture love.Fixture
 Polygon = {}
 Polygon.__index = Polygon
 
 ---# Constructer for the Polygon class
----@param vertices [number, number][]
+---@param vertices ([number, number])[]
+---@param world love.World
+---@param mass number
+---@param type? love.BodyType
+---@param worldPosition? [number, number]
 ---@return Polygon
-function Polygon:new(vertices)
+function Polygon:new(world, vertices, mass, type, worldPosition)
+  local physics = love.physics
+  if worldPosition == nil then worldPosition = {0, 0} end
+
   self = setmetatable({}, Polygon)
+  self.world = world
   self.vertices = vertices
+  self.body = physics.newBody(world, worldPosition[1], worldPosition[2], type)
+  self.body:setMass(mass)
+  self.shape = physics.newPolygonShape(self:normalizedVertices())
+  self.fixture = physics.newFixture(self.body, self.shape)
+
   return self
 end
 
