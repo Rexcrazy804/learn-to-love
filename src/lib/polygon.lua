@@ -1,5 +1,6 @@
+---@alias vertexSet [number, number]
 ---@class Polygon
----@field vertices [number, number][]
+---@field vertices (vertexSet)[]
 ---@field world love.World
 ---@field body love.Body
 ---@field shape love.PolygonShape
@@ -8,11 +9,11 @@ Polygon = {}
 Polygon.__index = Polygon
 
 ---# Constructer for the Polygon class
----@param vertices ([number, number])[]
+---@param vertices (vertexSet)[]
 ---@param world love.World
 ---@param mass number
 ---@param type? love.BodyType
----@param worldPosition? [number, number]
+---@param worldPosition? vertexSet
 ---@return Polygon
 function Polygon:new(world, vertices, mass, type, worldPosition)
   local physics = love.physics

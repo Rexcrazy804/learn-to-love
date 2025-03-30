@@ -39,11 +39,7 @@
       default = pkgs.callPackage love2d {};
     });
     devShells = forAllSystems (pkgs: {
-      default = pkgs.mkShell {
-        buildInputs = [
-          pkgs.love
-        ];
-      };
+      default = pkgs.mkShell {buildInputs = [pkgs.love];};
     });
   };
 }
