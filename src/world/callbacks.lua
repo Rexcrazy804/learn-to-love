@@ -4,8 +4,13 @@
 local begin_contact = function(fixture1, fixture2, contact)
   local object_1 = fixture1:getUserData() or "unknown1"
   local object_2 = fixture2:getUserData() or "unknown2"
-
   print(object_1 .. " and " .. object_2 .. " are touching each other");
+
+  local x1, x2, x3, x4 = contact:getPositions()
+  local c_points = { x1 , x2, x3, x4 }
+  for index, point in ipairs(c_points) do
+    print("[" .. index .. "]: " .. point)
+  end
 end
 
 ---@param fixture1 love.Fixture

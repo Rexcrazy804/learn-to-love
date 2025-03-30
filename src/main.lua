@@ -12,7 +12,7 @@ function love.draw()
 
   graphics.setColor(my_color)
   graphics.polygon('fill', triangle.body:getWorldPoints(triangle.shape:getPoints()))
-  graphics.setColor({0, 1, 0.35})
+  graphics.setColor({ 0, 1, 0.35 })
   graphics.polygon('fill', floor.body:getWorldPoints(floor.shape:getPoints()))
 end
 
@@ -26,21 +26,20 @@ local update = {
   end,
 
   ---moves the player polygon (not workign rn)
-  ---@param polgyon Polygon
-  ---@param delta number
-  ["player"] = function(polgyon, delta)
-    local speed = 80 * delta;
-    if love.keyboard.isDown("up") then polgyon:update("y", -speed) end
-    if love.keyboard.isDown("down") then polgyon:update("y", speed) end
-    if love.keyboard.isDown("left") then polgyon:update("x", -speed) end
-    if love.keyboard.isDown("right") then polgyon:update("x", speed) end
+  ---@param shape Polygon
+  ["player"] = function(shape)
+    local speed = 800;
+    if love.keyboard.isDown("up") then shape.body:applyForce(0, -speed) end
+    if love.keyboard.isDown("down") then shape.body:applyForce(0, speed) end
+    if love.keyboard.isDown("left") then shape.body:applyForce(-speed, 0) end
+    if love.keyboard.isDown("right") then shape.body:applyForce(speed, 0) end
 
     if love.keyboard.isDown("space") then
       ---@diagnostic disable-next-line: param-type-mismatch
       if love.keyboard.isDown("lshift") then
-        polgyon:rotate(5)
+        shape.body:applyTorque(500)
       else
-        polgyon:rotate(-5)
+        shape.body:applyTorque(-500)
       end
     end
   end,
@@ -50,4 +49,5 @@ local update = {
 function love.update(delta)
   world:update(delta)
   update["color"](delta)
+  update["player"](entities["triangle"])
 end
