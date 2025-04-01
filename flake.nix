@@ -16,30 +16,24 @@
         system:
           f (import nixpkgs {inherit system;})
       );
-    love2d = {
-      stdenv,
-      fetchFromGitHub,
-    }:
-      stdenv.mkDerivation {
-        name = "LuaCats-love2d";
-        src = fetchFromGitHub {
-          owner = "LuaCats";
-          repo = "love2d";
-          rev = "765abafe49775ba52937430e2546dfc330381d6b";
-          hash = "sha256-IRG/v8NcelqXWKovXm8d5YAAkCUb+6WvgmioaSUso/c=";
-        };
-
-        installPhase = ''
-          mkdir $out
-          cp -r $src/library $out
-        '';
-      };
   in {
-    packages = forAllSystems (pkgs: {
-      default = pkgs.callPackage love2d {};
+    packages = forAllSystems (pkgs: rec {
+      # lua cats completion for love2d
+      love2dLC = pkgs.callPackage ./nix/lucats-love2d.nix {};
+      game = pkgs.callPackage ./nix/love-game.nix {
+        src = "${self}/src";
+      };
+      default = game;
     });
-    devShells = forAllSystems (pkgs: {
-      default = pkgs.mkShell {buildInputs = [pkgs.love];};
+    devShells = forAllSystems (pkgs: let
+      self' = self.packages.${pkgs.system};
+    in {
+      default = pkgs.mkShell {
+        buildInputs = [pkgs.love];
+        LUACATS_LIB = builtins.concatStringsSep ":" [
+          "${self'.love2dLC}/Library"
+        ];
+      };
     });
   };
 }
