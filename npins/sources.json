@@ -1,0 +1,24 @@
+{
+  "pins": {
+    "lc-love2d": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "LuaCats",
+        "repo": "love2d"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "765abafe49775ba52937430e2546dfc330381d6b",
+      "url": "https://github.com/LuaCats/love2d/archive/765abafe49775ba52937430e2546dfc330381d6b.tar.gz",
+      "hash": "sha256-IRG/v8NcelqXWKovXm8d5YAAkCUb+6WvgmioaSUso/c="
+    },
+    "nixpkgs": {
+      "type": "Channel",
+      "name": "nixpkgs-unstable",
+      "url": "https://releases.nixos.org/nixpkgs/nixpkgs-25.11pre829964.a421ac659502/nixexprs.tar.xz",
+      "hash": "sha256-CzuDY4L/ZOKceHI3TzqOSyb9wCDr7grpFryahf2gxso="
+    }
+  },
+  "version": 6
+}
